@@ -1,7 +1,7 @@
-// 求通关路线：最佳优先搜索，目标结局默认 HE·白鹭。node tools/solve.js [目标结局] [最大展开数]
+// 求通关路线：最佳优先搜索，目标结局默认 HE·云雀。node tools/solve.js [目标结局] [最大展开数]
 const { chromium } = require('playwright');
 const path = require('path');
-const GOAL = process.argv[2] || 'HE·白鹭';
+const GOAL = process.argv[2] || 'HE·云雀';
 const MAX = +process.argv[3] || 60000;
 const URL = 'file://' + path.resolve(__dirname, '..', 'index.html');
 (async () => {
@@ -13,8 +13,8 @@ const URL = 'file://' + path.resolve(__dirname, '..', 'index.html');
     const tick = () => new Promise(r => setTimeout(r, 0));
     const V = () => SugarCube.State.variables;
     const huaNum = P => +(/^h(\d+)/.exec(P) || [0, 0])[1];
-    const score = () => { const v = V(); return v.v013 * 3 + v.v012 * 3 + v.v011 * 2 + v.v010 + v.v001 * 0.3 - v.v009 * 0.5 + v.v019 * 0.2; };
-    const sig = () => { const v = V(); const o = []; for (let i = 1; i <= 32; i++) o.push(v['v' + String(i).padStart(3, '0')]); return o.join(','); };
+    const score = () => { const v = V(); return (v.v006 || 0) * 3 + (v.v003 || 0) * 2 + (v.v004 || 0) * 2 + Math.min(v.v001 || 0, 8) * 0.3 + Math.min(v.v002 || 0, 8) * 0.3 + (v.v015 || 0) + (v.v016 || 0); };
+    const sig = () => { const v = V(); const o = []; for (const k of Object.keys(v).filter(k => /^v\d{3}$/.test(k)).sort()) o.push(k + v[k]); return o.join(','); };
     const links = () => [...document.querySelectorAll('#passages a.link-internal')].filter(a => !a.closest('nav.after'));
     document.querySelector('#passages .title-menu a').click(); await tick();
     const seen = new Set();
@@ -40,7 +40,7 @@ const URL = 'file://' + path.resolve(__dirname, '..', 'index.html');
           endsSeen[end.textContent] = (endsSeen[end.textContent] || 0) + 1;
           if (end.textContent === GOAL) {
             const v = V();
-            return { ok: true, n, path: pathN, vars: { 证据: v.v012, 良知: v.v013, 恩淑信任: v.v011, 宫本信任: v.v001, 素月好感: v.v010 }, endsSeen };
+            return { ok: true, n, path: pathN, vars: { 德方信任: v.v001, 英方信任: v.v002, 良知: v.v003, 疑心: v.v004, 真相: v.v006, 克莱尔命运: v.v015, 艾达命运: v.v016 }, endsSeen };
           }
           continue;
         }

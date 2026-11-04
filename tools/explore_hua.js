@@ -4,8 +4,8 @@ const path = require('path');
 const URL = 'file://' + path.resolve(__dirname, '..', 'index.html');
 const PRESETS = {
   零: {},
-  顺: { '001': 12, '010': 10, '011': 8, '012': 6, '013': 9, '014': 1, '016': 0, '017': 1, '018': 1, '019': 6, '022': 1, '023': 1, '024': 0, '025': 0, '026': 0 },
-  险: { '001': 3, '009': 7, '010': 2, '011': 1, '012': 1, '013': 1, '014': 0, '015': 1, '016': 1, '017': 0, '018': 2, '019': 1, '022': 0, '023': 0, '024': 1, '025': 1, '026': 1, '030': 1, '031': 2, '032': 1 },
+  顺: { '001': 8, '002': 8, '003': 7, '004': 4, '005': 3, '006': 5, '007': 3, '009': 1, '015': 1, '016': 1, '017': 0, '018': 3, '019': 6 },
+  险: { '001': 1, '002': 1, '003': 0, '004': 0, '005': 0, '006': 0, '007': 0, '009': 0, '015': 0, '016': 0, '017': 1, '018': 0, '019': 0 },
 };
 (async () => {
   const b = await chromium.launch();
@@ -26,8 +26,9 @@ const PRESETS = {
         const tried = new Set(), stack = [];
         // 重置状态
         const V = SugarCube.State.variables;
-        for (let i = 1; i <= 32; i++) V['v' + String(i).padStart(3, '0')] = 0;
-        V.used = {}; V.expr = {};
+        for (const k of Object.keys(V)) if (/^v\d{3}$/.test(k)) V[k] = 0;
+        for (let i = 1; i <= 199; i++) V['v' + String(i).padStart(3, '0')] = 0;
+        V.used = {}; V.expr = {}; V.ledger = [];
         for (const [k, v] of Object.entries(pre)) V['v' + k] = v;
         SugarCube.Engine.play(h); await tick();
         let steps = 0, sinceNew = 0;
