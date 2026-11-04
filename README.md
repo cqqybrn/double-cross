@@ -20,6 +20,7 @@
 | `AGENTS.md` | 给 Codex 等代理的素材生成工作说明 |
 | `script/00-设定集与大纲.md` | 立意、人物、变量、台账与暗语玩法、分章大纲、跨章分工 |
 | `script/chapters/*.md` | 剧本源文件 |
+| `docs/真结局通关路线.md` | 自动求解得到的一条真结局路线（剧透） |
 | `script/复盘/*.md` | 每个死亡结局的复盘、静电频道对话和检查点 |
 | `assets/` | 素材插槽（`bg/` `char/` `cg/` `bgm/` `sfx/`），清单见 `assets/manifest.json` 与 `assets/README.md` |
 | `tools/` | 构建脚本、运行时、样式、素材元数据、自动试玩检查 |
