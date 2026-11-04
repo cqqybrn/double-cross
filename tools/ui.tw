@@ -1,0 +1,26 @@
+:: StoryInterface
+<div id="app"><header id="bar" data-passage="Bar"></header><main id="passages"></main></div>
+
+:: Bar
+<div class="bar-in"><span class="chap"><<print setup.chapLabel()>></span><nav class="tools"><<link "后退">><<run Engine.backward()>><</link>><<link "台账">><<run setup.showLedger()>><</link>><<link "存档">><<run UI.saves()>><</link>><<link "结局">><<goto "结局一览">><</link>><<link "音乐">><<run setup.audio.toggle()>><</link>></nav></div>
+
+:: Start [title]
+<<bgm "bgm/主题">>
+<div class="title-screen">
+<p class="file-tab">MOST SECRET · B1A · LARK</p>
+<h1 class="title">双十字</h1>
+<p class="title-en">DOUBLE CROSS · 1940 — 1975</p>
+<p class="lede">1940 年 9 月，一个德国间谍降落在剑桥郡的麦田里，当天就走进了警察局。此后五年，他替英国给德国发了一千多份假情报。他骗了整个德国情报局。他不知道，自己才是被骗得最久的那一个。</p>
+<nav class="title-menu">
+<<link "开始游戏" "h1">><</link>>
+<<if setup.hasSave()>><<link "继续上次">><<run setup.continueGame()>><</link>><</if>>
+<<link "读取存档">><<run UI.saves()>><</link>>
+<<link "结局一览" "结局一览">><</link>>
+</nav>
+<p class="fine">存档保存在当前浏览器里，可在「存档」中导出为文件。右上角「台账」记着你对汉堡说过的每一句谎。</p>
+</div>
+
+:: 结局一览 [gallery]
+<header class="hua-head"><span class="no">结局一览</span><span class="tt">每一份档案，都有它的结案日期</span></header>
+<<print setup.galleryHTML()>>
+<nav class="after"><<link "返回">><<run Engine.backward()>><</link>><<link "回到标题">><<run setup.toTitle()>><</link>></nav>
